@@ -1,3 +1,4 @@
+from typing import Tuple, List
 from dataclasses import dataclass
 
 
@@ -31,3 +32,16 @@ class Or(Formula):
 class Implies(Formula):
     left: Formula
     right: Formula
+
+
+@dataclass
+class Sequent:
+    left: Tuple[Formula, ...]
+    right: Tuple[Formula, ...]
+
+
+@dataclass
+class ProofNode:
+    sequent: Sequent
+    rule: str
+    premises: List["ProofNode"]

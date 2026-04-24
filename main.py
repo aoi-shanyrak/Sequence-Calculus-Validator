@@ -9,7 +9,8 @@ def main() -> None:
         sys.exit(1)
 
     with open(sys.argv[1], "r") as inp:
-        tokens = parse(inp)
+        content = inp.read()
+        sequent = parse(content)
         pass
 
 
