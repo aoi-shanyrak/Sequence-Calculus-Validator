@@ -32,3 +32,7 @@ A -> (B -> C) |- (A -> B) -> C
 ```
 WRONG!!!
 ```
+
+## Complexity
+
+O(2^N) cause at every step there is a chance that tree will divide into two 
