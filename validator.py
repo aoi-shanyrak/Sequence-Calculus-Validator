@@ -1,9 +1,17 @@
 from typing import List, Tuple
-from classes import Formula, Atom, Not, And, Or, Implies, Sequent, ProofNode
+from functools import lru_cache
+
+from classes import Atom, Not, And, Or, Implies, Sequent, ProofNode
 
 
 def is_axiom(seq: Sequent) -> bool:
-    return any(f in set(seq.left) for f in seq.right)
+    if any(f in set(seq.left) for f in seq.right):
+        return True
+    left_set = set(seq.left)
+    for f in left_set:
+        if isinstance(f, Not) and f.arg in left_set:
+            return True
+    return False
 
 
 def find_applications(seq: Sequent) -> List[Tuple[str, List[Sequent]]]:
@@ -20,12 +28,12 @@ def find_applications(seq: Sequent) -> List[Tuple[str, List[Sequent]]]:
             case Or(a, b):
                 base = tuple(left[:i] + left[i + 1 :])
                 p1 = Sequent(base + (a,), seq.right)
-                p2 = Sequent(base + (b,), seq.left)
+                p2 = Sequent(base + (b,), seq.right)
                 apps.append(("|L", [p1, p2]))
 
             case Implies(a, b):
                 base = tuple(left[:i] + left[i + 1 :])
-                p1 = Sequent(base + (a,), seq.right)
+                p1 = Sequent(base, seq.right + (a,))
                 p2 = Sequent(base + (b,), seq.right)
                 apps.append(("->L", [p1, p2]))
 
@@ -60,10 +68,26 @@ def find_applications(seq: Sequent) -> List[Tuple[str, List[Sequent]]]:
             case Atom(_):
                 pass
 
+    return apps
 
+
+@lru_cache(maxsize=None)
 def prove(seq: Sequent) -> ProofNode | None:
     if is_axiom(seq):
         return ProofNode(seq, "axiom", [])
 
-    for rule, premises in find_applications(seq):
-        pass
+    apps = find_applications(seq)
+    apps.sort(key=lambda x: len(x[1]))
+
+    for rule, premises in apps:
+        children = []
+        ok = True
+        for prem in premises:
+            child = prove(prem)
+            if child is None:
+                ok = False
+                break
+            children.append(child)
+        if ok:
+            return ProofNode(seq, rule, children)
+    return None

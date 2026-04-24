@@ -77,7 +77,10 @@ def parse(s: str) -> Sequent:
     else:
         raise SyntaxError("Missing |- in sequent")
 
-    left_formula = parse_formula(left_str)
-    right_formula = parse_formula(right_str)
+    left_formula = parse_formula(left_str) if left_str else None
+    right_formula = parse_formula(right_str) if right_str else None
 
-    return Sequent((left_formula,), (right_formula,))
+    left_tuple = (left_formula,) if left_formula else ()
+    right_tuple = (right_formula,) if right_formula else ()
+
+    return Sequent(left_tuple, right_tuple)
