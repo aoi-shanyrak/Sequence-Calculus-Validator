@@ -1,9 +1,12 @@
-from classes import ProofNode
+from src.classes import ProofNode
 
-from symbols import BRANCH, LAST_BRANCH, EMPTY_SET, PROVE_SYMBOL
+from src.symbols import BRANCH, LAST_BRANCH, EMPTY_SET, PROVE_SYMBOL
 
 
-def proof_to_str(node: ProofNode, indent: str = "", is_last: bool = True) -> str:
+def proof_to_str(node: ProofNode | None, indent: str = "", is_last: bool = True) -> str:
+    if node is None:
+        return "WRONG!!!\n"
+
     result = ""
 
     seq = node.sequent

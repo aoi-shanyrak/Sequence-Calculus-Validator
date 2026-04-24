@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from classes import Formula, Atom, Not, And, Or, Implies, Sequent
+from src.classes import Formula, Atom, Not, And, Or, Implies, Sequent
 
 BRACKETS_NOT_AND_OR_ATOM_ALPHABET = r"\(|\)|~|&|\||->|[A-Za-z0-9]+"
 ATOM_ALPHABET = r"[A-Za-z0-9]+"

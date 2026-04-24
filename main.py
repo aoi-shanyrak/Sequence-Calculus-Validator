@@ -1,8 +1,8 @@
 import sys
 
-from parse import parse
-from validator import prove
-from print_proof import proof_to_str
+from src.parse import parse
+from src.validator import prove
+from src.print_proof import proof_to_str
 
 
 def main() -> None:

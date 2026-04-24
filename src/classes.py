@@ -1,7 +1,7 @@
 from typing import Tuple, List
 from dataclasses import dataclass
 
-from symbols import AND, OR, IMPLICATION, NOT
+from src.symbols import AND, OR, IMPLICATION, NOT
 
 
 class Formula:

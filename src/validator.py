@@ -1,7 +1,7 @@
 from typing import List, Tuple
 from functools import lru_cache
 
-from classes import Atom, Not, And, Or, Implies, Sequent, ProofNode
+from src.classes import Atom, Not, And, Or, Implies, Sequent, ProofNode
 
 
 def is_axiom(seq: Sequent) -> bool:
